@@ -1,15 +1,18 @@
 # Projeto: Apigame
 
 ## **Descrição**
-Desenvolvimento de um jogo web simples, chamado **Apigame**, integrado com pelo menos **duas APIs** para funcionalidades adicionais. O projeto será implementado com o framework Flask, terá suporte a multiusuários e será hospedado online para acesso remoto via navegador.
+Desenvolvimento de um jogo web interativo chamado Apigame, que será um jogo de perguntas e respostas (quiz) com suporte a múltiplos jogadores no modo versus. O projeto integrará pelo menos duas APIs externas e será hospedado online para acesso remoto via navegador.
 
 ---
 
 ## **Fase 1: Planejamento (03/12)**
 
 ### **Definir o escopo do projeto**
-- Criar um jogo simples com integração de APIs.
-- Funcionalidade principal: Jogo **Pedra, Papel e Tesoura** com ranking global.
+- Criar um jogo de perguntas e respostas baseado em uma API de trivia.
+- Funcionalidades principais:
+- - Modo solo: Jogador desafia a IA (máquina).
+- - Modo versus: Jogadores competem entre si em tempo real.
+- - Ranking global com pontuações dos jogadores.
 
 ### **Requisitos técnicos**
 - Suporte a **multiusuários** com conexões simultâneas (threads).
@@ -34,18 +37,29 @@ Desenvolvimento de um jogo web simples, chamado **Apigame**, integrado com pelo 
 ## **Fase 2: Configuração Inicial (03/12 - 04/12)**
 
 ### **Instalar e configurar o ambiente de desenvolvimento**
-- Instalar Flask e extensões, como `Flask-Cors`.
+- Instalar Flask e extensões, como `Flask-SocketIO`.
 - Configurar repositório Git para versionamento.
 - Criar a estrutura inicial do projeto.
 
 ### **Estrutura básica do projeto**
 apigame/
 ├── static/
-├── templates/
-├── app.py
-├── api/
-├── requirements.txt
-├── README.md
+│   ├── css/               
+│   ├── js/                
+├── templates/             
+│   ├── index.html         
+│   ├── play.html          
+│   ├── result.html        
+│   ├── ranking.html       
+├── app.py                 
+├── api/                
+│   ├── trivia_api.py   
+│   ├── avatar_api.py   
+├── database/           
+│   ├── db.sqlite       
+│   ├── db_setup.py     
+├── requirements.txt    
+├── README.md            
 
 
 ### **Funcionalidades iniciais**
