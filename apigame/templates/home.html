@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Jogo{% endblock %}
+
+{% block content %}
+<div class="container border border-danger text-center">
+    <button class="btn btn-success m-2" id="play-button" onclick="showGameOptions();">
+        Jogar
+    </button>
+    <button class="btn btn-info m-2" id="ranking-button" onclick="window.location.href='{{ url_for('main.ranking') }}';">
+        Ver Ranking
+    </button>
+
+    <!-- Placeholder for new buttons that will appear after 'Jogar' is clicked -->
+    <div id="game-options" style="display: none;">
+        <button class="btn btn-primary m-2">Solo</button>
+        <button class="btn btn-danger m-2">Contra IA</button>
+        <button class="btn btn-secondary m-2">Contra Jogador</button>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+{% endblock %}
