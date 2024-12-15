@@ -80,7 +80,7 @@ function sendAnswerToServer(questionId, selectedAnswer) {
     console.log(data)
 
     // Send the data to the server using fetch
-    fetch('/solo-play', {
+    fetch('/solo', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -115,6 +115,6 @@ function redirectToResultsPage() {
 
     // Redirect after a short delay
     setTimeout(() => {
-        window.location.href = '/results'; // Adjust the path if needed
+        window.location.href = '/game/results'; // Adjust the path if needed
     }, 1500); // 2-second delay for UX
 }

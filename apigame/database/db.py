@@ -20,11 +20,11 @@ class QuestionDB:
         # Initialize an empty DataFrame with columns based on the question format
         self.questions = pd.DataFrame(columns=tuple(Question.__annotations__.keys()))
 
-    def add_question(self, question: Question) -> None:
-        """Adds a new question to the DataFrame."""
-        # Convert the question dictionary into a DataFrame row and append it
-        new_row = pd.DataFrame([question])
-        self.questions = pd.concat([self.questions, new_row], ignore_index=True)
+    def add_question(self, questions: Iterable[Question]) -> None:
+        """Adds new questions to the DataFrame."""
+
+        new_rows = pd.DataFrame(questions)
+        self.questions = pd.concat([self.questions, new_rows], ignore_index=True)
 
     def get_question_by_id(self, hash_id: str) -> Question | None:
         """Retrieve a question by its hash_id."""

@@ -9,7 +9,7 @@
             Jogar
         </button>
         <button class="btn btn-info m-2" id="ranking-button"
-                onclick="window.location.href='{{ url_for('main.ranking') }}';">
+                onclick="window.location.href='{{ url_for('home.ranking') }}';">
             Ver Ranking
         </button>
     </div>
@@ -23,7 +23,7 @@
 
         function checkLogin() {
             if (username !== "None" && username) {
-                window.location.href = "{{ url_for('main.solo_play') }}";
+                window.location.href = "{{ url_for('game.solo') }}";
             } else {
                 $('#authModal').modal('show');
             }
