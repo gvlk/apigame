@@ -3,21 +3,44 @@
 {% block title %}Home - Jogo{% endblock %}
 
 {% block content %}
-<div class="container border border-danger text-center">
-    <button class="btn btn-success m-2" id="play-button" onclick="showGameOptions();">
-        Jogar
-    </button>
-    <button class="btn btn-info m-2" id="ranking-button" onclick="window.location.href='{{ url_for('main.ranking') }}';">
-        Ver Ranking
-    </button>
+    <div class="container border border-danger text-center mt-5">
 
-    <!-- Placeholder for new buttons that will appear after 'Jogar' is clicked -->
-    <div id="game-options" style="display: none;">
-        <button class="btn btn-primary m-2">Solo</button>
-        <button class="btn btn-danger m-2">Contra IA</button>
-        <button class="btn btn-secondary m-2">Contra Jogador</button>
+        <button class="btn btn-success m-2" id="play-button" onclick="checkLogin();">
+            Jogar
+        </button>
+        <button class="btn btn-info m-2" id="ranking-button"
+                onclick="window.location.href='{{ url_for('main.ranking') }}';">
+            Ver Ranking
+        </button>
+
+        <div id="game-options" style="display: none;">
+            <button class="btn btn-primary m-2" onclick="window.location.href='{{ url_for('main.solo_play') }}';">
+                Solo
+            </button>
+            <button class="btn btn-danger m-2">
+                Contra IA
+            </button>
+            <button class="btn btn-secondary m-2">
+                Contra Jogador
+            </button>
+        </div>
     </div>
-</div>
 
-<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    {% include 'modal_auth.html' %}
+
+    <script src="{{ url_for('static', filename='js/home.js') }}"></script>
+
+    <script>
+        const username = "{{ session.get('username') }}";
+        console.log(username)
+
+        function checkLogin() {
+            if (username !== "None" && username) {
+                toggleGameMode();
+            } else {
+                $('#authModal').modal('show');
+            }
+        }
+    </script>
+
 {% endblock %}
