@@ -8,3 +8,12 @@ h1 {
     color: #0056b3;
     text-align: center;
 }
+
+.fixed-size-button {
+    width: 200px;
+    height: 50px;
+    text-align: center;
+    text-wrap: auto;
+    overflow: hidden;
+    white-space: nowrap;
+}
