@@ -1,3 +1,5 @@
+from random import shuffle
+
 from flask import Blueprint, render_template, request, jsonify, session, redirect
 
 from apigame.services.question_service import get_random_questions, get_question_by_id
@@ -21,9 +23,14 @@ def solo():
         return redirect('/')
 
     if request.method == 'GET':
-        questions = get_random_questions(3)
-        session_id = start_game_session(user['user_id'], [q['hash_id'] for q in questions])
+        questions = get_random_questions(5)
+        for question in questions:
+            answers = [question['correct_answer']] + question['incorrect_answers']
+            shuffle(answers)
+            question['shuffled_answers'] = answers
+        session_id = start_game_session(user['user_id'], [q['id'] for q in questions])
         session['session_id'] = session_id
+
         return render_template('solo_play.html', questions=questions)
 
     elif request.method == 'POST':

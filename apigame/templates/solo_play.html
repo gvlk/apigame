@@ -7,7 +7,7 @@
         <div class="w-75 text-center" id="quiz-container">
             <h1>Trivia Quiz</h1>
             {% for question in questions %}
-                <div class="question border border-black" data-id={{ question.hash_id }};>
+                <div class="question border border-black" data-id={{ question.id }};>
                     <p>{{ loop.index }}. {{ question.question }}</p>
                     <ul class="border border-danger d-flex flex-wrap justify-content-around"
                         style="list-style-type: none">

@@ -1,21 +1,9 @@
 import hashlib
 from html import unescape
-from random import shuffle
 from time import sleep
 from typing import TypedDict, Optional
 
 from requests import get as requests_get
-
-
-class Question(TypedDict):
-    hash_id: str
-    category: str
-    difficulty: str
-    type: str
-    question: str
-    correct_answer: str
-    incorrect_answers: tuple[str]
-    shuffled_answers: tuple[str]
 
 
 class RequestConfig(TypedDict):
@@ -65,7 +53,7 @@ class TriviaClient:
         text = question + correct_answer + "".join(incorrect_answers)
         return hashlib.sha256(text.encode()).hexdigest()
 
-    def _process_questions(self, questions: list[dict]) -> list[Question]:
+    def _process_questions(self, questions: list[dict]) -> list[dict]:
         """
         Processes questions by unescaping text and shuffling the answers.
 
@@ -77,16 +65,9 @@ class TriviaClient:
             question["correct_answer"] = unescape(question["correct_answer"])
             question["incorrect_answers"] = tuple(unescape(answer) for answer in question["incorrect_answers"])
 
-            all_answers = list(question["incorrect_answers"]) + [question["correct_answer"]]
-            shuffle(all_answers)
-            question["shuffled_answers"] = tuple(all_answers)
-
-            question["hash_id"] = self._generate_question_hash(question["question"], question["correct_answer"],
-                                                               question["incorrect_answers"])
-
         return questions
 
-    def get_questions(self, config=RequestConfig) -> list[Question]:
+    def get_questions(self, config=RequestConfig) -> list[dict]:
         """
         Fetches trivia questions from the API.
 

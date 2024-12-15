@@ -1,10 +1,11 @@
+import uuid
 from datetime import datetime
 from typing import TypedDict, Iterable
 
 import pandas as pd
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from apigame.api.trivia_api import Question
+from apigame.services.question import Question
 
 
 class Session(TypedDict):
@@ -21,14 +22,16 @@ class QuestionDB:
         self.questions = pd.DataFrame(columns=tuple(Question.__annotations__.keys()))
 
     def add_questions(self, questions: Iterable[Question]) -> None:
-        """Adds new questions to the DataFrame."""
-
+        """
+        Adds new questions to the DataFrame and assigns a unique ID to each.
+        """
         new_rows = pd.DataFrame(questions)
+        new_rows["id"] = [str(uuid.uuid4()) for _ in range(len(new_rows))]
         self.questions = pd.concat([self.questions, new_rows], ignore_index=True)
 
-    def get_question_by_id(self, hash_id: str) -> Question | None:
-        """Retrieve a question by its hash_id."""
-        question = self.questions[self.questions['hash_id'] == hash_id]
+    def get_question_by_id(self, q_id: str) -> Question | None:
+        """Retrieve a question by its id."""
+        question = self.questions[self.questions['id'] == q_id]
         if not question.empty:
             return question.iloc[0].to_dict()
         return None
@@ -45,6 +48,10 @@ class QuestionDB:
         # Use Pandas' sample method to get random rows
         random_questions = self.questions.sample(n=min(amount, len(self.questions)), replace=False)
         return random_questions.to_dict(orient='records')
+
+    def get_question_count(self) -> int:
+        """Returns the count of questions in the database."""
+        return len(self.questions)
 
 
 class SessionDB:
