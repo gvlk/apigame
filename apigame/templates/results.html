@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Resultado - Jogo{% endblock %}
+
+{% block content %}
+    <div class="container d-flex justify-content-center">
+        <div class="w-75 text-center" id="results-container">
+            <h1>Trivia Quiz Results</h1>
+            <p>Congratulations on completing the quiz!</p>
+            <p>Correct Answers: {{ correct_answers }} / {{ total_questions }}</p>
+
+            {% if correct_answers == total_questions %}
+                <div class="alert alert-success">
+                    <strong>Well done!</strong> You got all the answers correct!
+                </div>
+            {% elif correct_answers > total_questions / 2 %}
+                <div class="alert alert-warning">
+                    Good job! You got more than half right!
+                </div>
+            {% else %}
+                <div class="alert alert-danger">
+                    Better luck next time! Keep practicing.
+                </div>
+            {% endif %}
+
+            <a href="{{ url_for('main.homepage') }}" class="btn btn-primary">Back to Homepage</a>
+        </div>
+    </div>
+{% endblock %}
