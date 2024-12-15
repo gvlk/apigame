@@ -20,7 +20,7 @@ class QuestionDB:
         # Initialize an empty DataFrame with columns based on the question format
         self.questions = pd.DataFrame(columns=tuple(Question.__annotations__.keys()))
 
-    def add_question(self, questions: Iterable[Question]) -> None:
+    def add_questions(self, questions: Iterable[Question]) -> None:
         """Adds new questions to the DataFrame."""
 
         new_rows = pd.DataFrame(questions)

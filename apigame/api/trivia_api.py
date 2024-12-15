@@ -1,7 +1,8 @@
 import hashlib
 from html import unescape
 from random import shuffle
-from typing import TypedDict
+from time import sleep
+from typing import TypedDict, Optional
 
 from requests import get as requests_get
 
@@ -15,6 +16,29 @@ class Question(TypedDict):
     correct_answer: str
     incorrect_answers: tuple[str]
     shuffled_answers: tuple[str]
+
+
+class RequestConfig(TypedDict):
+    """
+    :param amount: Number of questions to fetch.
+    :param category: Category ID for filtering questions, or None for all categories.
+    :param difficulty: Difficulty level ('easy', 'medium', 'hard'), or None for all difficulties.
+    :param q_type: Type of questions ('multiple', 'boolean'), or None for all types.
+    """
+    amount: int
+    category: Optional[int]
+    difficulty: Optional[str]
+    q_type: Optional[str]
+
+
+def default_request_config() -> RequestConfig:
+    """Returns a RequestConfig object with default values."""
+    return RequestConfig(
+        amount=50,
+        category=None,
+        difficulty="easy",
+        q_type=None
+    )
 
 
 class TriviaClient:
@@ -62,33 +86,22 @@ class TriviaClient:
 
         return questions
 
-    def get_questions(
-            self,
-            amount: int,
-            category: int | None = None,
-            difficulty: str | None = None,
-            q_type: str | None = None
-    ) -> list[Question]:
+    def get_questions(self, config=RequestConfig) -> list[Question]:
         """
         Fetches trivia questions from the API.
 
-        :param amount: Number of questions to fetch.
-        :param category: Category ID for filtering questions, or None for all categories.
-        :param difficulty: Difficulty level ('easy', 'medium', 'hard'), or None for all difficulties.
-        :param q_type: Type of questions ('multiple', 'boolean'), or None for all types.
         :return: A list of questions, each as a dictionary containing the question text, answers, and other metadata.
         """
-
         params = {
             "token": self.token,
-            "amount": amount,
+            "amount": config["amount"],
         }
-        if category is not None:
-            params["category"] = category
-        if difficulty is not None:
-            params["difficulty"] = difficulty
-        if q_type is not None:
-            params["q_type"] = q_type
+        if config["category"] is not None:
+            params["category"] = config["category"]
+        if config["difficulty"] is not None:
+            params["difficulty"] = config["difficulty"]
+        if config["q_type"] is not None:
+            params["q_type"] = config["q_type"]
 
         url = f"{self.base_url}/api.php"
         response = requests_get(url, params=params).json()
@@ -97,8 +110,8 @@ class TriviaClient:
         if response_code == 0:
             return self._process_questions(response["results"])
         elif response_code == 4:  # Token exhausted
+            sleep(5)
             self._get_new_token(True)
-            return self.get_questions(amount, category, difficulty, q_type)
         else:
             raise Exception(f"Failed to fetch questions. Response code = {response_code}")
 

@@ -1,14 +1,15 @@
-from apigame.api.trivia_api import TriviaClient
+from apigame.api.trivia_api import TriviaClient, default_request_config
 from apigame.database.db import QuestionDB
 
 question_db = QuestionDB()
 trivia_client = TriviaClient()
+default_request_config = default_request_config()
 
 
-def fetch_and_store_questions(amount: int = 3):
+def fetch_and_store_questions() -> None:
     try:
-        questions = trivia_client.get_questions(amount=amount)
-        question_db.add_question(questions)
+        questions = trivia_client.get_questions(default_request_config)
+        question_db.add_questions(questions)
     except Exception as e:
         print(e)
 
