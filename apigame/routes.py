@@ -41,7 +41,6 @@ def solo_play():
 
         session_id = session_db.start_session(user_id, tuple(question["hash_id"] for question in questions))
 
-        # Store session_id in Flask's session or cookies for later use
         session['session_id'] = session_id
 
         return render_template('solo_play.html', questions=questions)
@@ -56,7 +55,6 @@ def solo_play():
         question_id = data.get('questionId')
         selected_answer = data.get('selectedAnswer')
 
-        # Get the question from the database
         question = question_db.get_question_by_id(question_id)
         if question:
             correct = question['correct_answer'] == selected_answer

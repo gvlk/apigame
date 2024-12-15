@@ -12,18 +12,6 @@
                 onclick="window.location.href='{{ url_for('main.ranking') }}';">
             Ver Ranking
         </button>
-
-        <div id="game-options" style="display: none;">
-            <button class="btn btn-primary m-2" onclick="window.location.href='{{ url_for('main.solo_play') }}';">
-                Solo
-            </button>
-            <button class="btn btn-danger m-2">
-                Contra IA
-            </button>
-            <button class="btn btn-secondary m-2">
-                Contra Jogador
-            </button>
-        </div>
     </div>
 
     {% include 'modal_auth.html' %}
@@ -32,11 +20,10 @@
 
     <script>
         const username = "{{ session.get('username') }}";
-        console.log(username)
 
         function checkLogin() {
             if (username !== "None" && username) {
-                toggleGameMode();
+                window.location.href = "{{ url_for('main.solo_play') }}";
             } else {
                 $('#authModal').modal('show');
             }
