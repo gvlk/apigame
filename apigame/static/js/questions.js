@@ -9,6 +9,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Add event listeners to all the answer buttons
     addAnswerButtonListeners(questions, currentQuestionIndex);
+
+    addHintButtonListeners(questions);
 });
 
 // Function to display the current question and hide the rest
@@ -31,6 +33,10 @@ function addAnswerButtonListeners(questions, currentQuestionIndex) {
 
     // Loop through each button and add a click event listener
     buttons.forEach((button) => {
+        if (button.classList.contains("hint-button")) {
+            return; // Skip this iteration if it's the hint button
+        }
+
         button.addEventListener("click", function () {
             // Get the selected answer text
             const selectedAnswer = button.textContent.trim();
@@ -60,6 +66,20 @@ function addAnswerButtonListeners(questions, currentQuestionIndex) {
     });
 }
 
+function addHintButtonListeners(questions) {
+    questions.forEach((question) => {
+        const hintButton = question.querySelector(".hint-button");
+        const hintText = question.querySelector(".hint-text");
+
+        if (hintButton && hintText) {
+            hintButton.addEventListener("click", function () {
+                // Toggle visibility of the hint text
+                hintText.style.display = (hintText.style.display === "none" || hintText.style.display === "") ? "block" : "none";
+            });
+        }
+    });
+}
+
 // Function to hide a given question
 function hideQuestion(question) {
     question.style.display = "none";
@@ -80,7 +100,7 @@ function sendAnswerToServer(questionId, selectedAnswer) {
     console.log(data)
 
     // Send the data to the server using fetch
-    fetch('/solo', {
+    fetch('/game/solo', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

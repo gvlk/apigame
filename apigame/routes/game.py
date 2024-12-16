@@ -46,7 +46,7 @@ def solo():
         if question:
             correct = question['correct_answer'] == selected_answer
             update_session(session_id, question_id, correct)
-            return jsonify({"isCorrect": correct, "correctAnswer": question['correct_answer']}), 200
+            return jsonify({"isCorrect": correct}), 200
 
         return jsonify({"error": "Question not found"}), 404
 
