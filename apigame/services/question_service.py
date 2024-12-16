@@ -9,6 +9,10 @@ default_request_config = default_request_config()
 
 
 def fetch_and_store_questions() -> None:
+    """
+    Fetches trivia questions from an external source, processes them using GPT
+    to add translations and hints, and stores them in the question database.
+    """
     if question_db.get_question_count() >= 100:
         return None
     try:
