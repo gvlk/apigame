@@ -14,6 +14,7 @@ def fetch_and_store_questions_periodically() -> None:
     This function runs in a separate thread to ensure it does not block the main Flask application.
     """
     while True:
+        print("Fetching and storing questions...")
         fetch_and_store_questions()
         sleep(10)
 
