@@ -14,7 +14,7 @@
             <ul class="navbar-nav ms-auto">
                 {% if 'username' in session %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
+                        <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout ({{ session.username }})</a>
                     </li>
                 {% else %}
                     <li class="nav-item">
@@ -34,7 +34,7 @@
     {% endblock %}
 </main>
 
-<footer class="bg-light text-center py-3 mt-auto">
+<footer class="blockquote-footer bg-light text-center py-3 mt-auto">
     <div id="question-count">
         Total Questions in the Database: <span id="total-questions">Loading...</span>
     </div>

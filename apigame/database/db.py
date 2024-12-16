@@ -124,6 +124,34 @@ class SessionDB:
             return correct_count, total_count
         return 0, 0
 
+    def get_player_ranking(self) -> pd.DataFrame:
+        """
+        Returns a DataFrame with a ranking of players by total points scored.
+        Each correct answer awards one point.
+        :return: A DataFrame with columns ['user_id', 'points'] sorted by 'points' in descending order.
+        """
+        # Initialize a dictionary to store total points per user
+        user_points = {}
+
+        # Iterate over sessions and calculate points for each user
+        for _, session in self.sessions.iterrows():
+            user_id = session['user_id']
+            questions = session['questions']
+            points = sum(questions.values())  # Count correct answers
+
+            if user_id in user_points:
+                user_points[user_id] += points
+            else:
+                user_points[user_id] = points
+
+        # Convert the dictionary to a DataFrame
+        ranking_df = pd.DataFrame(list(user_points.items()), columns=['user_id', 'points'])
+
+        # Sort by points in descending order
+        ranking_df = ranking_df.sort_values(by='points', ascending=False).reset_index(drop=True)
+
+        return ranking_df
+
 
 class UserDB:
     def __init__(self):
@@ -152,6 +180,13 @@ class UserDB:
     def get_user_by_username(self, username: str) -> dict | None:
         """Retrieve user information by username."""
         user = self.users[self.users["username"] == username]
+        if not user.empty:
+            return user.iloc[0].to_dict()
+        return None
+
+    def get_user_by_id(self, u_id: int) -> dict | None:
+        """Retrieve user information by username."""
+        user = self.users[self.users["user_id"] == u_id]
         if not user.empty:
             return user.iloc[0].to_dict()
         return None

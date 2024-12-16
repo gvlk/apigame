@@ -13,3 +13,7 @@ def update_session(session_id, question_id, correct):
 
 def end_game_session(session_id):
     return session_db.get_correct_answer_count(session_id)
+
+
+def get_player_ranking():
+    return session_db.get_player_ranking()

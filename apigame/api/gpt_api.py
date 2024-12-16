@@ -16,7 +16,7 @@ Translate the provided list of quiz questions from American English into Brazili
 
 - Translate the following fields into Brazilian Portuguese:
   - Question text
-  - Correct and incorrect answers
+  - Correct and incorrect answers (including True or False that must be translated to Verdadeiro e Falso)
   - Category
 - Retain the structural and formatting integrity of the original questions.
 - Keep proper nouns (e.g., names of places, brands) unchanged.
