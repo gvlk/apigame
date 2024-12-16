@@ -1,43 +1,32 @@
-import threading
 from time import sleep
 
 from flask import Flask
-from flask.logging import create_logger
 
 from apigame.api.trivia_api import default_request_config
 from apigame.services.question_service import fetch_and_store_questions
 
 
-def fetch_and_store_questions_periodically() -> None:
-    """
-    Fetches and stores questions in the database every few seconds.
-    This function runs in a separate thread to ensure it does not block the main Flask application.
-    """
-    while True:
-        print("Fetching and storing questions...")
-        fetch_and_store_questions()
-        sleep(10)
-
-
-def create_app():
+def create_app() -> Flask:
     """
     Application factory for creating and configuring the Flask app.
     :return: Configured Flask app instance.
     """
     app = Flask(__name__)
-
     app.config.from_object("apigame.config.Config")
 
-    logger = create_logger(app)
-    logger.info("Starting Flask application...")
+    app.logger.info("Creating Flask application instance.")
 
     from apigame.routes import register_blueprints
     register_blueprints(app)
+    app.logger.info("Routes registered successfully.")
 
-    logger.info("Starting background thread for fetching and storing questions...")
-    thread = threading.Thread(target=fetch_and_store_questions_periodically, daemon=True)
-    thread.start()
-
-    logger.info("Application setup complete.")
+    app.logger.info("Starting the question-fetching service.")
+    try:
+        fetch_and_store_questions()
+        sleep(10)
+        fetch_and_store_questions()
+        sleep(10)
+    except Exception as e:
+        app.logger.error(f"An error occurred while fetching questions: {e}")
 
     return app

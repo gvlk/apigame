@@ -73,14 +73,14 @@ class ChatGPTClient:
         self.api_key: str = API_KEY
         self.model: str = "gpt-4o-mini"
         self.client = OpenAI(api_key=self.api_key)
-        logging.debug("ChatGPTClient initialized with model '%s'", self.model)
+        logging.debug(f"ChatGPTClient initialized with model '{self.model}'", )
 
     def generate_translated_and_hinted_questions(self, questions: Iterable[Question]) -> list[Question]:
         """
         Translates the provided questions and generates additional hint questions
         using OpenAI's GPT model.
         """
-        logging.info("Generating translated and hinted questions for %d questions", len(questions))
+        logging.info(f"Generating translated and hinted questions for {len(questions)} questions")
 
         try:
             # Sending request to OpenAI API
@@ -113,7 +113,7 @@ class ChatGPTClient:
             response_data = json.loads(response_content)
             translated_questions: list[dict[str, Any]] = response_data.get("questions", [])
 
-            logging.info("Successfully translated %d questions", len(translated_questions))
+            logging.info(f"Successfully translated {len(translated_questions)} questions")
 
             # Convert dicts to Question objects
             typed_questions: list[Question] = [
@@ -128,9 +128,9 @@ class ChatGPTClient:
                 ) for question in translated_questions
             ]
 
-            logging.debug("Returning %d typed questions", len(typed_questions))
+            logging.debug(f"Returning {len(typed_questions)} typed questions")
             return typed_questions
 
         except Exception as e:
-            logging.error("An error occurred while generating translated questions: %s", e)
+            logging.error(f"An error occurred while generating translated questions: {e}")
             raise
