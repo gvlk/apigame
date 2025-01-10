@@ -8,6 +8,8 @@ from apigame.services.user_service import get_user_by_username
 
 game = Blueprint('game', __name__)
 
+QUESTIONS_PER_GAME = 5
+
 
 @game.route('/solo', methods=['GET', 'POST'])
 def solo():
@@ -23,7 +25,7 @@ def solo():
         return redirect('/')
 
     if request.method == 'GET':
-        questions = get_random_questions(5)
+        questions = get_random_questions(QUESTIONS_PER_GAME)
         for question in questions:
             answers = [question['correct_answer']] + question['incorrect_answers']
             shuffle(answers)
