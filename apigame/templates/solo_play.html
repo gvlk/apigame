@@ -1,24 +1,24 @@
 {% extends 'base.html' %}
 
-{% block title %}Solo - Jogo{% endblock %}
+{% block title %}Solo - QuizMaster{% endblock %}
 
 {% block content %}
     <div class="container d-flex justify-content-center">
         <div class="w-75 text-center" id="quiz-container">
-            <h1>Trivia Quiz</h1>
+            <h1>Quiz</h1>
             {% for question in questions %}
-                <div class="question border border-black" data-id={{ question.id }}>
+                <div class="question" data-id={{ question.id }}>
                     <p>{{ loop.index }}. {{ question.question }}</p>
-                    <ul class="border border-danger d-flex flex-wrap justify-content-around"
+                    <ul class="d-flex flex-wrap justify-content-around"
                         style="list-style-type: none">
                         {% for option in question.shuffled_answers %}
-                            <li class="m-3 border border-danger">
+                            <li class="m-3">
                                 <button class="btn btn-primary fixed-size-button">{{ option }}</button>
                             </li>
                         {% endfor %}
                     </ul>
-                
-                    <button class="hint-button btn btn-info">Show Hint</button>
+
+                    <button class="hint-button btn btn-info">Mostrar Dica</button>
                     <p class="hint-text" style="display:none;">{{ question.hint }}</p>
                 </div>
             {% endfor %}

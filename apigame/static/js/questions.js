@@ -123,8 +123,8 @@ function showCompletionMessage() {
     const quizContainer = document.getElementById('quiz-container');
     quizContainer.innerHTML = `
         <div class="text-center">
-            <h2>Thank you for playing!</h2>
-            <p>Redirecting to results...</p>
+            <h2>Partida finalizada!</h2>
+            <p>Redirecionando para os resultados...</p>
         </div>
     `;
 }

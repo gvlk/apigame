@@ -9,18 +9,22 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-        <a class="navbar-brand" href="/">Jogo</a>
-        <div class="collapse navbar-collapse">
+        <a class="navbar-brand" href="/">QuizMaster</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+                aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarContent">
             <ul class="navbar-nav ms-auto">
                 {% if 'username' in session %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout ({{ session.username }})</a>
+                        <a class="nav-link" href="{{ url_for('auth.logout') }}">Sair ({{ session.username }})</a>
                     </li>
                 {% else %}
                     <li class="nav-item">
                         <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
                                 data-bs-target="#authModal">
-                            Login/Register
+                            Entrar
                         </button>
                     </li>
                 {% endif %}
@@ -29,12 +33,15 @@
     </div>
 </nav>
 
-<main>
+<main class="container">
     {% block content %}
     {% endblock %}
 </main>
 
-<footer class="blockquote-footer bg-light text-center py-3 mt-auto">
+<footer class="blockquote-footer text-center py-3 mt-auto">
+    <div>
+        @ Guilherme Azambuja
+    </div>
     <div id="question-count">
         Total Questions in the Database: <span id="total-questions">Loading...</span>
     </div>
